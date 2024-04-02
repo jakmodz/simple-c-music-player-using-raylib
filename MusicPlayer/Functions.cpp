@@ -3,59 +3,59 @@
 
 bool IsButtonPressed(Rectangle button, Vector2 point)
 {
-	if (point.x >= button.x && point.x <= button.x+button.width&&
-		point.y >= button.y && point.y <= button.y+button.height
-		&&
-		IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
-	{
-		return true;
-	}
+    if (point.x >= button.x && point.x <= button.x + button.width &&
+        point.y >= button.y && point.y <= button.y + button.height
+        &&
+        IsMouseButtonReleased(MOUSE_BUTTON_LEFT))
+    {
+        return true;
+    }
     return false;
 }
 
 int random_integer(int inclusiveFrom, int exclusiveTo)
 {
-	return inclusiveFrom + rand() % (exclusiveTo - inclusiveFrom);
-	
+    return inclusiveFrom + rand() % (exclusiveTo - inclusiveFrom);
+
 }
 
-void songchecker(std::vector<Sound> songs, std::vector<std::string> paths,
-    Rectangle& button, Sound& current_sound)
+void DrawVolumeLevels()
+{
+
+
+    int volume = 10;
+    int x_pos = 750;
+
+    std::string VolumeString;
+    for (size_t i = 0; i < 10; ++i)
+    {
+        VolumeString = std::to_string(volume);
+        DrawText(VolumeString.c_str(), x_pos, 515, 15, PURPLE);
+        volume += 10;
+        x_pos += 50;
+
+    }
+
+
+}
+
+
+
+void songchecker(std::vector<Sound>& songs, std::vector<std::string>& paths, std::vector<std::string>& names,
+    Rectangle& button, Sound& current_sound, std::string& currentfilename)
 {
     for (int i = 0; i < paths.size(); ++i)
     {
-        
+
         if (IsKeyReleased(48 + i))
         {
-            
-            if (IsSoundPlaying(songs[i]))
-            {
-                StopSound(songs[i]);
-            }
-            else
-            {
+
+            current_sound = songs[i];
+            currentfilename = names[i];
+            current_sound = LoadSound(paths[i].c_str());
 
 
-
-
-
-                
-                songs[i] = LoadSound(paths[i].c_str());
-                songs[i] = current_sound;
-                
-                PlaySound(current_sound);
-                
-                if (IsButtonPressed(button, GetMousePosition()) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON) || IsKeyReleased(KEY_SPACE))
-                {
-                    StopSound(current_sound);
-                }
-                else
-                {
-                    ResumeSound(current_sound);
-
-                }
-
-            }
+            PlaySound(current_sound);
         }
     }
 }
