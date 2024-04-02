@@ -12,6 +12,7 @@ int volumeVisible=100;
 int main() {
     const int screenWidth = 1650;
     const int screenHeight = 650;
+    int number = 0;
 
     vector<string> paths;
     vector<string> names;
@@ -105,10 +106,10 @@ int main() {
         }
         
         EndDrawing();
+        
         UnloadDroppedFiles(droppedFiles);
-
     }
-
+    
     CloseAudioDevice();
     CloseWindow();
 

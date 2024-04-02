@@ -56,15 +56,40 @@ void PlayStopEvent(Sound& currentSound, Rectangle& stop_start_button)
 void DropingFiles(Sound& currentSound, std::vector<Sound>& songs, std::vector<std::string>& names, std::vector<std::string>& paths,std::string& currentFileName,FilePathList& droppedFiles)
 {
     if (IsFileDropped()) {
-        currentFileName = GetFileName(droppedFiles.paths[0]);
-        StopSound(currentSound);
-        UnloadSound(currentSound);
-        currentSound = LoadSound(droppedFiles.paths[0]);
-        PlaySound(currentSound);
 
-        paths.push_back(droppedFiles.paths[0]);
-        names.push_back(currentFileName);
-        songs.push_back(currentSound);
+        if (droppedFiles.count>1)
+        {
+            for (int i = 0; i < droppedFiles.count; ++i)
+            {
+                currentFileName = GetFileName(droppedFiles.paths[i]);
+                StopSound(currentSound);
+                UnloadSound(currentSound);
+                currentSound = LoadSound(droppedFiles.paths[i]);
+                PlaySound(currentSound);
+
+                paths.push_back(droppedFiles.paths[i]);
+                names.push_back(currentFileName);
+                songs.push_back(currentSound);
+
+
+            }
+
+        }
+        else
+        {
+
+
+            currentFileName = GetFileName(droppedFiles.paths[0]);
+            StopSound(currentSound);
+            UnloadSound(currentSound);
+            currentSound = LoadSound(droppedFiles.paths[0]);
+            PlaySound(currentSound);
+
+            paths.push_back(droppedFiles.paths[0]);
+            names.push_back(currentFileName);
+            songs.push_back(currentSound);
+        }
+
     }
 
 }
