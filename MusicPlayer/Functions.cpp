@@ -64,21 +64,16 @@ void DropingFiles(Sound& currentSound, std::vector<Sound>& songs, std::vector<st
                 currentFileName = GetFileName(droppedFiles.paths[i]);
                 StopSound(currentSound);
                 UnloadSound(currentSound);
-                currentSound = LoadSound(droppedFiles.paths[i]);
-                PlaySound(currentSound);
-
                 paths.push_back(droppedFiles.paths[i]);
                 names.push_back(currentFileName);
                 songs.push_back(currentSound);
-
-
             }
-
+            currentSound= LoadSound(droppedFiles.paths[0]);
+            currentFileName = GetFileName(droppedFiles.paths[0]);
+            PlaySound(currentSound);
         }
         else
         {
-
-
             currentFileName = GetFileName(droppedFiles.paths[0]);
             StopSound(currentSound);
             UnloadSound(currentSound);
@@ -89,12 +84,9 @@ void DropingFiles(Sound& currentSound, std::vector<Sound>& songs, std::vector<st
             names.push_back(currentFileName);
             songs.push_back(currentSound);
         }
-
     }
 
 }
-
-
 
 
 void songchecker(std::vector<Sound>& songs, std::vector<std::string>& paths, std::vector<std::string>& names,

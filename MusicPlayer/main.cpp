@@ -6,21 +6,22 @@
 
 using namespace std;
 
-Sound currentSound;
-float volume_level = 1.0;
-int volumeVisible=100;
-int main() {
+
+int main() 
+{
     const int screenWidth = 1650;
     const int screenHeight = 650;
     int number = 0;
-
+    Sound currentSound = Sound();
+    float volume_level = 1.0;
+    int volumeVisible = 100;
     vector<string> paths;
     vector<string> names;
     vector<Sound> songs;
     const int itemSpacing = 50;
     InitAudioDevice();
     Image icon;
-    icon=LoadImage("../icon/icon.png");
+    icon = LoadImage("../icon/icon.png");
     InitWindow(screenWidth, screenHeight, "Music Player");
     SetWindowIcon(icon);
     UnloadImage(icon);
@@ -83,19 +84,19 @@ int main() {
             volume_level = mouse_position_x - 700;
             volume_level = volume_level / 50;
             volume_level = volume_level / 10;
-            if (volume_level>1.0)
+            if (volume_level > 1.0)
             {
                 volume_level = 1.0;
             }
-            SetSoundVolume(currentSound,(float)volume_level);
-            volumeVisible =  volume_level * 100;
-            
+            SetSoundVolume(currentSound, (float)volume_level);
+            volumeVisible = volume_level * 100;
+
 
         }
 
         DropingFiles(currentSound, songs, names, paths, currentFileName, droppedFiles);
         songchecker(songs, paths, names, stop_start_button, currentSound, currentFileName);
-        PlayStopEvent(currentSound,stop_start_button);
+        PlayStopEvent(currentSound, stop_start_button);
 
 
         if (paths.size() > 10 || IsButtonPressed(clearHistory, GetMousePosition()))
@@ -104,12 +105,12 @@ int main() {
             songs.clear();
             names.clear();
         }
-        
+
         EndDrawing();
-        
+
         UnloadDroppedFiles(droppedFiles);
     }
-    
+
     CloseAudioDevice();
     CloseWindow();
 
