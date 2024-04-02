@@ -39,22 +39,54 @@ void DrawVolumeLevels()
 
 }
 
+void PlayStopEvent(Sound& currentSound, Rectangle& stop_start_button)
+{
+    if (IsButtonPressed(stop_start_button, GetMousePosition()) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON) || IsKeyReleased(KEY_SPACE)) {
+        if (IsSoundPlaying(currentSound)) {
+            PauseSound(currentSound);
+
+        }
+        else {
+            ResumeSound(currentSound);
+
+        }
+    }
+}
+
+void DropingFiles(Sound& currentSound, std::vector<Sound>& songs, std::vector<std::string>& names, std::vector<std::string>& paths,std::string& currentFileName,FilePathList& droppedFiles)
+{
+    if (IsFileDropped()) {
+        currentFileName = GetFileName(droppedFiles.paths[0]);
+        StopSound(currentSound);
+        UnloadSound(currentSound);
+        currentSound = LoadSound(droppedFiles.paths[0]);
+        PlaySound(currentSound);
+
+        paths.push_back(droppedFiles.paths[0]);
+        names.push_back(currentFileName);
+        songs.push_back(currentSound);
+    }
+
+}
+
+
 
 
 void songchecker(std::vector<Sound>& songs, std::vector<std::string>& paths, std::vector<std::string>& names,
     Rectangle& button, Sound& current_sound, std::string& currentfilename)
 {
+   
     for (int i = 0; i < paths.size(); ++i)
     {
-
+        
         if (IsKeyReleased(48 + i))
         {
-
+            StopSound(current_sound);
             current_sound = songs[i];
             currentfilename = names[i];
             current_sound = LoadSound(paths[i].c_str());
 
-
+            
             PlaySound(current_sound);
         }
     }

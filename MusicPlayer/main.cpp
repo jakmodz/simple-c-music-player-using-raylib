@@ -7,7 +7,8 @@
 using namespace std;
 
 Sound currentSound;
-int volume_level = 100;
+float volume_level = 1.0;
+int volumeVisible=100;
 int main() {
     const int screenWidth = 1650;
     const int screenHeight = 650;
@@ -17,8 +18,8 @@ int main() {
     vector<Sound> songs;
     const int itemSpacing = 50;
     InitAudioDevice();
-    Image icon = LoadImage("../icon/icon.png");
-
+    Image icon;
+    icon=LoadImage("../icon/icon.png");
     InitWindow(screenWidth, screenHeight, "Music Player");
     SetWindowIcon(icon);
     UnloadImage(icon);
@@ -55,7 +56,7 @@ int main() {
         DrawRectangleRec(clearHistory, ORANGE);
         DrawRectangleRec(pseudo_slider, MAROON);
         DrawText("Volume: ", 850, 460, 50, BLUE);
-        std::string temporaly_string = std::to_string(volume_level);
+        std::string temporaly_string = std::to_string(volumeVisible);
         DrawText(temporaly_string.c_str(), 1035, 460, 50, ORANGE);
         DrawText("you can play the tracks from the history :) PS: 0 is first and 9 is the last", 420, 60, 28, BLUE);
         DrawText("maximal number of songs in history is 10 if you go out of this range the data will erase ", 420, 120, 28, GREEN);
@@ -79,39 +80,21 @@ int main() {
             int mouse_position_x = mouse_position.x;
 
             volume_level = mouse_position_x - 700;
-            volume_level = volume_level / 5;
-            if (volume_level > 100)
+            volume_level = volume_level / 50;
+            volume_level = volume_level / 10;
+            if (volume_level>1.0)
             {
-                volume_level = 100;
+                volume_level = 1.0;
             }
-            SetMasterVolume(volume_level);
+            SetSoundVolume(currentSound,(float)volume_level);
+            volumeVisible =  volume_level * 100;
+            
 
         }
 
-        if (IsFileDropped()) {
-            currentFileName = GetFileName(droppedFiles.paths[0]);
-            StopSound(currentSound);
-            UnloadSound(currentSound);
-            currentSound = LoadSound(droppedFiles.paths[0]);
-            PlaySound(currentSound);
-
-            paths.push_back(droppedFiles.paths[0]);
-            names.push_back(currentFileName);
-            songs.push_back(currentSound);
-        }
-
+        DropingFiles(currentSound, songs, names, paths, currentFileName, droppedFiles);
         songchecker(songs, paths, names, stop_start_button, currentSound, currentFileName);
-        if (IsButtonPressed(stop_start_button, GetMousePosition()) && IsMouseButtonReleased(MOUSE_LEFT_BUTTON) || IsKeyReleased(KEY_SPACE)) {
-            if (IsSoundPlaying(currentSound)) {
-                PauseSound(currentSound);
-
-            }
-            else {
-                ResumeSound(currentSound);
-
-            }
-        }
-
+        PlayStopEvent(currentSound,stop_start_button);
 
 
         if (paths.size() > 10 || IsButtonPressed(clearHistory, GetMousePosition()))
@@ -120,7 +103,7 @@ int main() {
             songs.clear();
             names.clear();
         }
-
+        
         EndDrawing();
         UnloadDroppedFiles(droppedFiles);
 

@@ -1,10 +1,7 @@
 ﻿  Functions.cpp
-  main.cpp
-C:\Users\123ja\Desktop\korepetycje\MusicPlayer\MusicPlayer\main.cpp(79,34): warning C4244: 'initializing': conversion from 'float' to 'int', possible loss of data
-C:\Users\123ja\Desktop\korepetycje\MusicPlayer\MusicPlayer\main.cpp(87,29): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   Generating code
   Previous IPDB and IOBJ mismatch, fall back to full compilation.
-  All 208 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
+  All 210 functions were compiled because no usable IPDB/IOBJ from previous compilation was found.
   Finished generating code
   MusicPlayer.vcxproj -> C:\Users\123ja\Desktop\korepetycje\MusicPlayer\x64\Release\MusicPlayer.exe
   'pwsh.exe' is not recognized as an internal or external command,
